@@ -3,7 +3,7 @@ import { BASE_URL } from "./apiEndpoint";
 
 const axiosConfig = axios.create({
   baseURL: BASE_URL,
-  timeout: 30000, // 30 second timeout for Render.com cold starts
+  // timeout: 30000, // 30 second timeout for Render.com cold starts
   headers: {
     "Content-Type": "application/json",
     Accept: "application/json",

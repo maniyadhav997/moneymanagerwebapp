@@ -1,8 +1,9 @@
+import Dashboard from "../Components/Dashboard";
 const Expense = () => {
     return (
-        <div>
-            Expense Page
-        </div>
+         <Dashboard activeMenu="Expense">
+            This is Expense Page
+        </Dashboard>
     )
 }
 export default Expense;

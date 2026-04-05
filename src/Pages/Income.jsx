@@ -1,8 +1,10 @@
+import Dashboard from "../Components/Dashboard";
+
 const Income = () => {
     return (
-        <div>
-            Income Page
-        </div>
+         <Dashboard activeMenu="Income">
+            This is Income Page
+        </Dashboard>
     )
 }
 export default Income;
