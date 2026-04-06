@@ -6,19 +6,24 @@ import SideBar from "./SideBar";
 
 const Dashboard = ({children, activeMenu}) => {
   
+  const {user} = useContext(AppContext);
 
   return (
     <div className="dashboard">
             <Menubar activeMenu={activeMenu} />
-             <div className="flex">
-                <div className="max-[1080px]:hidden">
-                  {/* Sidebar component can be added here */}
-                  <SideBar activeMenu={activeMenu} />
-                </div>
+             {
+                user && (
+                  <div className="flex">
+                    <div className="max-[1080px]:hidden">
+                      {/* Sidebar component can be added here */}
+                      <SideBar activeMenu={activeMenu} />
+                    </div>
 
-                <div className="grow mx-5">{children}t</div>
+                    <div className="grow mx-5">{children}t</div>
 
               </div>
+                )
+             }
      </div>
   );
 }
