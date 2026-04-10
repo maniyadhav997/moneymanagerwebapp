@@ -10,7 +10,7 @@ const SideBar = ({ activeMenu }) => {
 
     const {user} = useContext(AppContext);
 
-    console.log("User in SideBar:", user); // Debugging line to check user data
+    
 
     const navigate = useNavigate();
 

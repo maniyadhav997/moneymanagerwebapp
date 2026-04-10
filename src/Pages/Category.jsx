@@ -1,7 +1,7 @@
 import { use } from "react";
 import Dashboard from "../Components/Dashboard";
 import { useUser } from "../hooks/useUser";
-import { Plus } from "lucide-react";
+import { Plus, Tornado } from "lucide-react";
 import CategoryList from "../Components/CategoryList";
 import axiosConfig from "../util/axiosConfig";
 import { ENDPOINTS } from "../util/apiEndpoint";
@@ -43,6 +43,37 @@ const Category = () => {
         fetchCategoryDetails();
     }, []);
 
+
+    const handleUpdateCategory = async (updatedCategory) => {
+        const {id, name, type, icon} = updatedCategory;
+        if(!name.trim()){
+            toast.error("Category Name is required");
+            return;
+        }
+        if(!id){
+            toast.error("Category Id is required for missing for update");
+            return;
+        }
+        try{
+             await axiosConfig.put(ENDPOINTS.UPDATE_CATEGORY(id), {name, type, icon} )
+            setOpenEditCategoryModal(false);
+            setSelectedCategory(null);
+            toast.success("Category updated successfully");
+            fetchCategoryDetails()
+        }   
+        catch(e){
+                console.error("Error updating categotary ", error.response?.data?.message || "Failed to update category");
+                toast.error(error.response?.data?.message || "Failed to update category")
+        }
+    }
+
+
+    const handleEditCategory = (categoryToEdit) =>{
+        setSelectedCategory(categoryToEdit);
+        setOpenAddCategoryModal(false);
+        setOpenEditCategoryModal(true);
+    }
+
     const handleAddCategory = async (category) => {
         const {name, type, icon} = category;
         if(!name.trim()){
@@ -60,17 +91,16 @@ const Category = () => {
         }
 
         try{
-        const response = await    axiosConfig.post(ENDPOINTS.ADD_CATEGORY, {name,type, icon});
-        if(response.status === 201){
-            toast.success("Category added successfully");
-            setOpenAddCategoryModal(false);
-            fetchCategoryDetails();
-        }
-
+            const response = await axiosConfig.post(ENDPOINTS.ADD_CATEGORY, {name,type, icon});
+            if(response.status === 201){
+                toast.success("Category added successfully");
+                setOpenAddCategoryModal(false);
+                fetchCategoryDetails();
+            }
         }
         catch(e){
-            console.log("Error adding category", error);
-            toast.error(error.response?.data?.message || "Failed to Category");
+            console.log("Error adding category", e);
+            toast.error(e.response?.data?.message || "Failed to Category");
         }
     }
 
@@ -95,7 +125,7 @@ const Category = () => {
 
                 {/* Category list */ }
 
-                <CategoryList categories={categoryData} />
+                <CategoryList categories={categoryData} onEditCategory={handleEditCategory} />
 
                 {/* Adding category modal*/}
                 <Modal
@@ -108,6 +138,20 @@ const Category = () => {
                 </Modal>
 
                 {/** Updating category modal */}
+                <Modal
+                    isOpen={openEditCategoryModal}
+                    onClose={() =>{ setOpenEditCategoryModal(false)
+                                    setSelectedCategory(null)
+                    }}
+                    title="Update Category"
+
+                >
+                    <AddCategoryForm
+                        initialCategoryData={selectedCategory}
+                        onAddCategory={handleUpdateCategory}
+                        isEditing={true}
+                     />
+                </Modal>
             </div>
         </Dashboard>
     )
