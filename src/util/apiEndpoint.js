@@ -9,5 +9,7 @@ export const ENDPOINTS = {
   LOGIN: "/login",
   REGISTER: "/register",
   GET_USER_INFO: "/profile",
+  GET_ALL_CATEGORIES: "/categories",
+  ADD_CATEGORY: "/categories",
   UPLOAD_IMAGE: `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/image/upload`,
 };
