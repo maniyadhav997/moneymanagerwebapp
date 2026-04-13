@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import Input from "./Input"
-import EmojiPickerPopup from "./EmpjiPickerPopup";
+import EmojiPickerPopup from "./EmojiPickerPopup";
 import { LoaderCircle } from "lucide-react";
 const AddCategoryForm = ({onAddCategory, initialCategoryData, isEditing}) => {
     const [category, setCategory] = useState({

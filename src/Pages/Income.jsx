@@ -8,6 +8,7 @@ import IncomeList from "../Components/IncomeList";
 import { toast } from "react-hot-toast";
 import Modal from "../Components/Modal";
 import { Plus } from "lucide-react";
+import AddIncomeForm from "../Components/AddIncomeForm";
 
 const Income = () => {
     useUser();
@@ -81,7 +82,10 @@ const Income = () => {
                         onClose={() => setOpenAddIncomeModel(false)}
                         title="Add Income"
                     >
-                        Income form Modal
+                        <AddIncomeForm 
+                            categories={categories}
+                            onAddIncome={() => console.log('adding income')}
+                        />
                     </Modal>
                 </div>
 
