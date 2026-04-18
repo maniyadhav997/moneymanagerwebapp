@@ -56,6 +56,41 @@ const Income = () => {
         }
     }
 
+    // save the income details to the database
+    const handleAddIncome = async (income) => {
+        console.log("Adding income: ", income);
+        const {name, amount, date,icon, categoryId} = income;
+
+        if(!name.trim() || !amount || !date || !categoryId){
+            toast.error("All fields are required");
+            return;
+        }
+       const selectedDate = new Date(date);
+       const today = new Date();
+       selectedDate.setHours(0, 0, 0, 0);
+       today.setHours(0, 0, 0, 0);
+       if (selectedDate > today) {
+        toast.error("Date cannot be in the future");
+        return;
+       }
+
+       try {
+       const response = await axiosConfig.post(ENDPOINTS.ADD_INCOME, {name, amount, date, icon, categoryId});
+        if(response.status === 201){
+            toast.success("Income added successfully");
+            setOpenAddIncomeModel(false);
+            fetchIncomeDetails();
+            fetchIncomeCategories();
+        }
+       }
+       catch(error){
+            console.error("Failed to add income", error);
+            toast.error(error.response?.data?.message || "Failed to add income");
+       }
+
+    }
+
+
     useEffect(()=> {
         fetchIncomeDetails();
         fetchIncomeCategories();
@@ -84,7 +119,7 @@ const Income = () => {
                     >
                         <AddIncomeForm 
                             categories={categories}
-                            onAddIncome={() => console.log('adding income')}
+                            onAddIncome={(income) => handleAddIncome(income)}
                         />
                     </Modal>
                 </div>
